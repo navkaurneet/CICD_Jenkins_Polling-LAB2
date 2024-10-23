@@ -1,21 +1,10 @@
 const request = require('supertest');
-const app = require('./index'); // Assuming your app is exported from index.js
-let server; // Declare a variable to hold the server instance
+const app = require('../index'); // Import your Express app
 
-// Start the server before all tests
-beforeAll((done) => {
-  server = app.listen(4000, () => { // Run on a different port for testing
-    done();
+describe('GET /', () => {
+  it('should return a 200 status and Hello, World! message', async () => {
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('Hello, World!');
   });
-});
-
-// Close the server after all tests
-afterAll((done) => {
-  server.close(done);
-});
-
-test('GET / should return 200', async () => {
-  const res = await request(server).get('/');
-  expect(res.statusCode).toEqual(200);
-  expect(res.text).toContain('Hello, Continuous Integration with GitHub Actions!');
 });
