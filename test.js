@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('./index'); // assuming your app is exported from index.js
+const app = require('./index.js'); // assuming your app is exported from index.js
 
 test('GET / should return 200', async () => {
   const res = await request(app).get('/');
