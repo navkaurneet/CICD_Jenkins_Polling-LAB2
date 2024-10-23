@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../index'); // Import your Express app
+const app = require('index'); // Import your Express app
 
 describe('GET /', () => {
   it('should return a 200 status and Hello, World! message', async () => {
