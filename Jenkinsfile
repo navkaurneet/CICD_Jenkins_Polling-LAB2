@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '20'
-        IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name 
+        IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
     }
 
     triggers {
@@ -27,7 +27,7 @@ pipeline {
                 echo "Setting up Node.js version ${NODE_VERSION}"
                 sh '''
                     export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
                     nvm install ${NODE_VERSION}
                     nvm use ${NODE_VERSION}
                 '''
