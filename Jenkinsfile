@@ -12,7 +12,7 @@ pipeline {
             steps {
                 // Cloning the GitHub repository with credentials
                 git(
-                    branch: 'master',
+                    branch: 'main',
                     url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git',
                     credentialsId: 'GitHub_PAT'
                 )
