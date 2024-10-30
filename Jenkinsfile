@@ -14,7 +14,7 @@ pipeline {
                 git(
                     branch: 'main',
                     url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git',
-                    credentialsId: 'GitHub_PAT'
+                    credentialsId: 'GitHub_PAT1'
                 )
             }
         }
