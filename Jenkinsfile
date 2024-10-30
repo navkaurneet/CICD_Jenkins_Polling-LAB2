@@ -1,8 +1,6 @@
 pipeline {
     agent any
     environment {
-        DOCKER_USERNAME = credentials('navyaemmy')  // Define Docker Hub username credential in Jenkins
-        DOCKER_PASSWORD = credentials('Navneet@1')  // Define Docker Hub password credential in Jenkins
         NODE_VERSION = '16'  // Specify Node.js version
         IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
     }
@@ -35,18 +33,7 @@ pipeline {
                 sh "docker build -t ${IMAGE_NAME} ."
             }
         }
-        stage('Log in to Docker Hub') {
-            steps {
-                echo 'Logging into Docker Hub...'
-                sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                sh "docker push ${IMAGE_NAME}"
-            }
-        }
+        
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
