@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         NODE_VERSION = '20'
-        IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
+        IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name 
     }
 
     triggers {
