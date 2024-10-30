@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        NODE_VERSION = '16'  // Specify Node.js version
+        NODE_VERSION = '20'
         IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
     }
     triggers {
