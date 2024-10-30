@@ -10,8 +10,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Cloning the GitHub repository
-                git branch: 'main', url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git' credentialsId: 'GitHub_PAT'
+                // Cloning the GitHub repository with credentials
+                git(
+                    branch: 'main',
+                    url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git',
+                    credentialsId: 'GitHub_PAT'
+                )
             }
         }
         stage('Set up Node.js') {
@@ -33,7 +37,6 @@ pipeline {
                 sh "docker build -t ${IMAGE_NAME} ."
             }
         }
-        
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
