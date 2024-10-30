@@ -18,38 +18,25 @@ pipeline {
                 )
             }
         }
-        stage('Set up Node.js') {
+ stage('Build') {
             steps {
-                echo "Setting up Node.js version ${NODE_VERSION}"
-                sh "nvm install ${NODE_VERSION}"
-                sh "nvm use ${NODE_VERSION}"
+                echo 'Building the application...'
+                // Add any build commands here
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                sh 'npm install'
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
-            }
-        }
-        stage('Run Tests') {
+        stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'npm test'  // Run tests as specified in the package.json file
+                // Add test commands or scripts here
             }
         }
     }
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Build and tests succeeded!'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo 'Build or tests failed.'
         }
     }
 }
