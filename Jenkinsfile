@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Cloning the GitHub repository
-                git branch: 'main', url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git'
+                git branch: 'main', url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git' credentialsId: 'GitHub_PAT'
             }
         }
         stage('Set up Node.js') {
