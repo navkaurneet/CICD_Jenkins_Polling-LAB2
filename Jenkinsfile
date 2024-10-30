@@ -24,44 +24,41 @@ pipeline {
 
         stage('Set up Node.js') {
             steps {
-                echo "Setting up Node.js version ${NODE_VERSION}"
-                sh '''
-                    export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                    nvm install ${NODE_VERSION}
-                    nvm use ${NODE_VERSION}
-                '''
+                script {
+                    // Set up Node.js (adjust the version as necessary)
+                    def nodeVersion = '20'
+                    bat "npm install -g n"
+                    bat "n ${nodeVersion}"
+                }
             }
         }
-
+        
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
-                sh 'npm install'
+                // Install npm dependencies
+                bat 'npm install'
             }
         }
-
+        
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
+                // Build Docker image (adjust as per your Dockerfile)
+                bat 'docker build -t your-image-name .'
             }
         }
-
+        
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
-                sh 'npm test'
+                // Run tests (adjust the test command as needed)
+                bat 'npm test'
             }
         }
     }
-
+    
     post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed.'
+        always {
+            echo 'Cleaning up...'
+            // Clean up if necessary
         }
     }
 }
