@@ -1,12 +1,15 @@
 pipeline {
     agent any
+
     environment {
         NODE_VERSION = '20'
         IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
     }
+
     triggers {
         pollSCM('H/5 * * * *') // Poll every 5 minutes for changes
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,25 +21,47 @@ pipeline {
                 )
             }
         }
- stage('Build') {
+
+        stage('Set up Node.js') {
             steps {
-                echo 'Building the application...'
-                // Add any build commands here
+                echo "Setting up Node.js version ${NODE_VERSION}"
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    nvm install ${NODE_VERSION}
+                    nvm use ${NODE_VERSION}
+                '''
             }
         }
-        stage('Test') {
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                sh "docker build -t ${IMAGE_NAME} ."
+            }
+        }
+
+        stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                // Add test commands or scripts here
+                sh 'npm test'
             }
         }
     }
+
     post {
         success {
-            echo 'Build and tests succeeded!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Build or tests failed.'
+            echo 'Pipeline failed.'
         }
     }
 }
