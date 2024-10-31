@@ -17,38 +17,27 @@ pipeline {
         stage('Set up Node.js') {
             steps {
                 echo "Setting up Node.js version ${NODE_VERSION}"
-                sh "nvm install ${NODE_VERSION}"
-                sh "nvm use ${NODE_VERSION}"
+                bat "nvm install ${NODE_VERSION}"
+                bat "nvm use ${NODE_VERSION}"
             }
         }
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
-                sh 'npm install'
+                bat 'npm install'
             }
         }
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
+                bat "docker build -t ${IMAGE_NAME} ."
             }
         }
-        stage('Log in to Docker Hub') {
-            steps {
-                echo 'Logging into Docker Hub...'
-                sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                sh "docker push ${IMAGE_NAME}"
-            }
-        }
+
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                sh 'npm test'  // Run tests as specified in the package.json file
+                bat 'npm test'  // Run tests as specified in the package.json file
             }
         }
     }
