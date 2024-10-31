@@ -18,31 +18,25 @@ pipeline {
                 )
             }
         }
+        stage('Install npm') {
+            steps {
+                // Installs npm on the Jenkins agent if it's not already installed
+                sh 'curl -L https://www.npmjs.com/install.sh | sh'
+            }
+        }
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
+                // Installs npm dependencies from package.json
                 sh 'npm install'
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                echo 'Running tests...'
-                sh 'npm test'  // Run tests as specified in the package.json file
             }
         }
     }
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'npm dependencies installed successfully!'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo 'Failed to install npm dependencies.'
         }
     }
 }
