@@ -20,9 +20,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                // Add any build commands here
             }
-        } // Close the Build stage properly here
+        }
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
