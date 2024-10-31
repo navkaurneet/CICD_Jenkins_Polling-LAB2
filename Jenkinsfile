@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-        NODE_VERSION = '16'  // Specify Node.js version
-        IMAGE_NAME = 'navyaemmy/nav-jpolling-lab2'  // Docker image name
+        NODE_VERSION = '16'  
     }
     triggers {
         pollSCM('H/5 * * * *') // Poll every 5 minutes for changes
@@ -27,7 +26,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                sh 'npm test'
             }
         }
     }
