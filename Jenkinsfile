@@ -18,12 +18,11 @@ pipeline {
                 )
             }
         }
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                echo 'Building Docker image...'
-                sh "docker build -t ${IMAGE_NAME} ."
+                echo 'Building the application...'
+                // Add any build commands here
             }
-        }
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
