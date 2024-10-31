@@ -18,13 +18,6 @@ pipeline {
                 )
             }
         }
-        stage('Set up Node.js') {
-            steps {
-                echo "Setting up Node.js version ${NODE_VERSION}"
-                sh "nvm install ${NODE_VERSION}"
-                sh "nvm use ${NODE_VERSION}"
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
