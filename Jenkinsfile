@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-        NODE_VERSION = '16'  
+        NODE_VERSION = '16'  // Specify Node.js version
+        IMAGE_NAME = 'navyaemmy/nav-jpolling'  // Docker image name
     }
     triggers {
         pollSCM('H/5 * * * *') // Poll every 5 minutes for changes
@@ -9,23 +10,45 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Cloning the GitHub repository with credentials
-                git(
-                    branch: 'main',
-                    url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git',
-                    credentialsId: 'GitHub_PAT1'
-                )
+                // Cloning the GitHub repository
+                git branch: 'main', url: 'https://github.com/navkaurneet/CICD_Jenkins_Polling-LAB2.git', credentialsId: 'GitHub_PAT1'
             }
         }
-        stage('Build') {
+        stage('Set up Node.js') {
             steps {
-                echo 'Building the application...'
-                // Add any build commands here
+                echo "Setting up Node.js version ${NODE_VERSION}"
+                sh "nvm install ${NODE_VERSION}"
+                sh "nvm use ${NODE_VERSION}"
             }
-        } // Close the Build stage properly here
+        }
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'npm install'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                sh "docker build -t ${IMAGE_NAME} ."
+            }
+        }
+        stage('Log in to Docker Hub') {
+            steps {
+                echo 'Logging into Docker Hub...'
+                sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                echo 'Pushing Docker image to Docker Hub...'
+                sh "docker push ${IMAGE_NAME}"
+            }
+        }
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
+                sh 'npm test'  // Run tests as specified in the package.json file
             }
         }
     }
